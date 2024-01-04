@@ -13,14 +13,14 @@ From inside the coreutils directory, we'll do the usual configure/make steps ins
 > However, if we understand the risks and still want to proceed, we can bypass this check by setting the `FORCE_UNSAFE_CONFIGURE` environment variable to `1`
 
 ```shell
-scoreutils-9.4-src# export FORCE_UNSAFE_CONFIGURE=1
-scoreutils-9.4-src# CC=gcc ./configure --disable-nls CFLAGS="-g -fprofile-arcs -ftest-coverage"
-scoreutils-9.4-src# CC=gcc make
+coreutils-9.4-src# export FORCE_UNSAFE_CONFIGURE=1
+coreutils-9.4-src# CC=gcc ./configure --disable-nls CFLAGS="-g -fprofile-arcs -ftest-coverage"
+coreutils-9.4-src# CC=gcc make
 ```
 
 > We build with `--disable-nls` because this adds a lot of extra initialization in the C library which we are not interested in testing. Even though these aren’t the executables that KLEE will be running on, we want to use the same compiler flags so that the test cases KLEE generates are most likely to work correctly when run on the uninstrumented binaries.
 
-We should now have a set of `coreutils` in the `objc-gcov/src` directory, and we can use them to get the precise ICov because `gcov` is only considering lines in that one file, not the entire application.
+We should now have a set of `coreutils` in the `coreutils-9.4-src/src` directory, and we can use them to get the precise ICov because `gcov` is only considering lines in that one file, not the entire application.
 
 ## Step 2: Run a KLEE evaluation
 
@@ -45,7 +45,7 @@ Let's take `echo` as an example:
 src# rm -f *.gcda # Get rid of any stale gcov files
 src# klee-replay ./echo /home/user/coreutils-test/coreutils-9.4-bc/result_all/echo_output/*.ktest
 ...
-src# gcov echo
+coreutils-9.4-src# gcov src/echo
 ...
 Lines executed: xx.xx % of xxx
 ...
