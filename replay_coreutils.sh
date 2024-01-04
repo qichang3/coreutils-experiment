@@ -54,7 +54,7 @@ do
 
   echo "     Running ==== > "${driver_name}
 
-  KLEE_OUT_DIR=${KLEE_OUT_DIR_ALL}/${driver_name}"_klee_without_stdin_out_output"
+  KLEE_OUT_DIR=${KLEE_OUT_DIR_ALL}/${driver_name}"_output"
   TIME_LOG_TXT=${KLEE_OUT_DIR}/"execute_time.txt"
   echo "KLEE_OUT_DIR is "${KLEE_OUT_DIR}
   echo "====  Replay Ktest ===="
